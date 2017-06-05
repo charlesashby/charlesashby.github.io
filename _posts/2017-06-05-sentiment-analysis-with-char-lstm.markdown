@@ -449,12 +449,12 @@ def linear(input_, output_size, scope=None):
         args: a tensor or a list of 2D, batch x n, Tensors.
     output_size: int, second dimension of W[i].
     scope: VariableScope for the created subgraph; defaults to "Linear".
-  Returns:
+    Returns:
     A 2D Tensor with shape [batch x output_size] equal to
     sum_i(args[i] * W[i]), where W[i]s are newly created matrices.
-  Raises:
+    Raises:
     ValueError: if some of the arguments has unspecified or wrong shape.
-  """
+    """
 
     shape = input_.get_shape().as_list()
     if len(shape) != 2:
