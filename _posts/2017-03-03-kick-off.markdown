@@ -4,6 +4,7 @@ comments: true
 excerpt: "Installment 01"
 title: "Installment 01 - Kick-Off!"
 date: 2017-03-03 22:00:00
+mathjax: true
 ---
 
 In this post we provide strong evidence that 
