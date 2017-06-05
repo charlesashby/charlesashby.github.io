@@ -465,7 +465,8 @@ def linear(input_, output_size, scope=None):
 
     # Now the computation.
     with tf.variable_scope(scope or "SimpleLinear"):
-        matrix = tf.get_variable("Matrix", [output_size, input_size], dtype=input_.dtype)
+        matrix = tf.get_variable("Matrix", [output_size, input_size],
+                                 dtype=input_.dtype)
         bias_term = tf.get_variable("Bias", [output_size], dtype=input_.dtype)
 
     return tf.matmul(input_, tf.transpose(matrix)) + bias_term
@@ -508,7 +509,8 @@ class LSTM(object):
         # X is of shape ('b', 'sentence_length', 'max_word_length', 'alphabet_size']
         # Placeholder for the one-hot encoded sentences
         self.X = tf.placeholder('float32', 
-                                shape=[None, None, max_word_length, ALPHABET_SIZE], name='X')
+                                shape=[None, None, max_word_length, ALPHABET_SIZE],
+                                name='X')
         
         # Placeholder for the one-hot encoded sentiment
         self.Y = tf.placeholder('float32', shape=[None, 2], name='Y')
