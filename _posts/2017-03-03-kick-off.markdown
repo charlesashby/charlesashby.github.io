@@ -1,8 +1,8 @@
 ---
 layout: post
 comments: true
-excerpt: "Installment 01"
-title: "Installment 01 - Kick-Off!"
+excerpt: "We present some very basic convolutional autoencoder networks for recovering cropped parts of an image given it's           contour and a caption describing the original image."
+title: "Class Project: Installment 01 - Kick-Off!"
 date: 2017-03-03 22:00:00
 mathjax: true
 ---
