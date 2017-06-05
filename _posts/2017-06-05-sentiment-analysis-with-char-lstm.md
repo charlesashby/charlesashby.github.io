@@ -1,6 +1,6 @@
 ---
 layout: post
-title: TensorFlow Tutorial: Analyzing Tweet's Sentiment with LSTMs
+title: TensorFlow Tutorial - Analyzing Tweet's Sentiment with LSTMs
 ---
 
 Hi there, for those who don't know me, my name is Charles Ashby I'm just a simple
