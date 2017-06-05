@@ -78,7 +78,7 @@ convolutional filters with different kernel widths used to capture the informati
  From the top of my head, there are three main advantages:
  - The biggest one is probably that the model will be much smaller (around
  ~50-100 mb for the whole model compared to over 3GB for the classic Word2Vec from Google
- - this is only taking into account the embedding, not the actual model);
+ \- this is only taking into account the embedding, not the actual model);
 - The model can understand the underlying emotion of repetitive letters (e.g. hellooooo!!);
 - and finally, it is almost immune to typos
 
