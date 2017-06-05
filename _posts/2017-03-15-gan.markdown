@@ -1,6 +1,9 @@
 ---
 layout: post
-title: Installment 02 - Generative Adversarial Network
+comments: true
+excerpt: "installment 02"
+title: "Installment 02 - Generative Adversarial Network"
+date: 2017-03-15 22:00:00
 ---
 
 ##### Introduction
