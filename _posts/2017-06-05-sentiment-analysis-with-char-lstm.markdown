@@ -431,7 +431,7 @@ def tdnn(input_, kernels, kernel_features, scope='TDNN'):
 At this point, we could simply feed the tensor to the LSTM, but we can actually get better results
 by passing it through a "highway network" before.
 
-##### Highway Network
+### Highway Network
     
 A "highway network" is a multi-layer perceptron equipped with a "skip-connection", that is, a connection to 
 the output layer with no activation function. These kinds of network are extremely popular these days and 
