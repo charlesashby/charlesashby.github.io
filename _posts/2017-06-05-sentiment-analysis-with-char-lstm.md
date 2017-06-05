@@ -104,9 +104,10 @@ def save_csv(out_file, data):
 
 def shuffle_datasets(valid_perc=0.05):
     """ Shuffle the datasets """
-    # TRAIN_SET and TEST_SET are respectively the path for training.1600000.processed.noemoticon.csv and
-    # testdata.manual.2009.06.14.csv, this function will create two new files called "valid_set.csv" and
-    # "train_set.csv".
+    # TRAIN_SET and TEST_SET are respectively the path for 
+    # training.1600000.processed.noemoticon.csv and
+    # testdata.manual.2009.06.14.csv, this function will create two 
+    # new files called "valid_set.csv" and "train_set.csv".
     
     # Make sure the paths exists, otherwise send some help messages...
     assert os.path.exists(TRAIN_SET), 'Download the training set at ' \
