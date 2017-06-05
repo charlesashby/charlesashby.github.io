@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 mathjax: true
 comments: true
 title: TensorFlow Tutorial: Analyzing Tweet's Sentiment with LSTMs
