@@ -346,7 +346,7 @@ I sketched what we will do in the next picture. Before you move on, you should t
 to stare at this schema until you're comfortable with most of the concepts in there. The following
 code will all be part of the `char_lstm.py` file unless specified otherwise.
 
-## picture
+<center><img src="/images/charlstm_diagram.png" style="width: 800px;"/></center>
 
 As I mentioned earlier, the first part of our model is a CharCNN network, I'll try to give you as much 
 information as I can on this model, but if you are interested in knowing more I highly suggest 
