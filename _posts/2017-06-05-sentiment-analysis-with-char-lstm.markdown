@@ -59,10 +59,12 @@ Instead, I opted for a character-level embedding, we first embed the words as
 a one-hot encoding of a "character-vocabulary" (which is, basically, an 
 alphabet), in our case, we use every ASCII characters.
  
- ```
-# e.g. the word "hi" will be a matrix where it has a 1 at positions (0, 7) and (1, 8)
-# and 0's everywhere else considering our alphabet is given by:
-emb_alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789-,;.!?:\'"/\\|_@#$%^&*~`+-=<>()[]{} '
+```python
+# e.g. the word "hi" will be a matrix where it has a 1 at 
+# positions (0, 7) and (1, 8) and 0's everywhere 
+# else considering our alphabet is given by:
+emb_alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789-,;' \
+               '.!?:\'"/\\|_@#$%^&*~`+-=<>()[]{} '
 ```
 
 Afterward, we feed this embedding to a CharCNN network [1], it is composed of multiple
@@ -87,7 +89,7 @@ fall into the `data_utils.py` file.
 The first thing we need to do is shuffle our dataset, I won't really get into the details of 
 what I'm doing here, I think it is pretty straight-forward.
 
-```
+```python
 import random, csv
 
 def reshape_lines(lines):
@@ -151,7 +153,7 @@ our `TextReader()` class, this class will help us loop through the data and crea
 that will be fed to our network during training. It opens a CSV file (our training, validation or 
 test set) and reads it through a buffer by loading a small amount of lines at a time to the RAM.
 
-```
+```python
 # Some packages we will need:
 import numpy as np
 from nltk.tokenize import word_tokenize
@@ -193,7 +195,7 @@ as a one-hot vector of length `ALPHABET_SIZE`, then we concatenate the character
 form words, and then concatenate words to form the sentence, thus, yielding a tensor of shape
 `[sentence_length x word_length x alphabet_size]`.
 
-```
+```python
     def encode_one_hot(self, sentence):
         # Convert Sentences to np.array of Shape 
         # ('sent_length', 'word_length', 'emb_size')
@@ -244,7 +246,7 @@ maximum_word_length x alphabet_size]`, but at the moment the sentences all have 
 we need to pad every sentences with lengths lower than `maximum_sentence_length` so that there are no
 holes in our tensor.
 
-```
+```python
     def make_minibatch(self, sentences):
         # Create a minibatch of sentences and convert sentiment
         # to a one-hot vector, also takes care of padding
@@ -299,7 +301,7 @@ Finally, we need an iterator function that loads some lines to our RAM, converts
 one-hot vectors, concatenate them to minibatches and return the minibatches, ready to be fed to
 the network.
 
-```
+```python
     def load_to_ram(self, batch_size):
         """ Load n Rows from File f to Ram """
         # Returns True if there are still lines in the buffer, 
@@ -366,7 +368,7 @@ We then concatenate the results of all the max pooling operation in a tensor of 
 `[25 * 50 * ... * 175 x 1]` (one max-pool for every kernel) for every words (the resulting
 tensor for the minibatch will then be of shape `[batch_size x sentence_length x 25 * 50 * ... * 175 x 1]`).
 
-```
+```python
 # This goes in ops.py
 import tensorflow as tf
 
@@ -381,7 +383,7 @@ def conv2d(input_, output_dim, k_h, k_w, name="conv2d"):
     return tf.nn.conv2d(input_, w, strides=[1, 1, 1, 1], padding='VALID') + b
 ```
 
-```
+```python
 from lib.ops import *
 import tensorflow as tf
 
@@ -437,11 +439,11 @@ have achieved state-of-the-art results in image classification tasks. They are e
 very deep neural networks because they help backpropagate the error better (the fact that there is a 
 path with no squashing function seems to be very beneficial during the training of these networks).
 
-```
+```python
 # This goes in ops.py
 
 def linear(input_, output_size, scope=None):
-    '''
+    """
     Linear map: output[k] = sum_i(Matrix[k, i] * args[i] ) + Bias[k]
     Args:
         args: a tensor or a list of 2D, batch x n, Tensors.
@@ -452,7 +454,7 @@ def linear(input_, output_size, scope=None):
     sum_i(args[i] * W[i]), where W[i]s are newly created matrices.
   Raises:
     ValueError: if some of the arguments has unspecified or wrong shape.
-  '''
+  """
 
     shape = input_.get_shape().as_list()
     if len(shape) != 2:
@@ -469,7 +471,7 @@ def linear(input_, output_size, scope=None):
     return tf.matmul(input_, tf.transpose(matrix)) + bias_term
 ```
 
-```
+```python
 def highway(input_, size, num_layers=1, bias=-2.0, f=tf.nn.relu, scope='Highway'):
     """Highway Network (cf. http://arxiv.org/abs/1505.00387).
     t = sigmoid(Wy + b)
@@ -492,7 +494,7 @@ def highway(input_, size, num_layers=1, bias=-2.0, f=tf.nn.relu, scope='Highway'
 Now, let's create our `LSTM()` class, the first thing we do is initialize it with placeholders
 for the one-hot encoded sentences and the sentiments, those will be the input to our computational graph.
 
-```
+```python
 class LSTM(object):
     """ Character-Level LSTM Implementation """
 
@@ -527,7 +529,7 @@ We are now ready to build the computational graph, note that the softmax functio
 perceptron with a softmax activation function to output the probability that the 
 sentence is positive or negative.
 
-```
+```python
 # This goes in ops.py
 def softmax(input_, out_dim, scope=None):
     """ SoftMax Output """
@@ -539,7 +541,7 @@ def softmax(input_, out_dim, scope=None):
     return tf.nn.softmax(tf.matmul(input_, W) + b)
 ```
 
-```
+```python
     def build(self,
               training=False,
               testing_batch_size=1000,
@@ -643,7 +645,7 @@ Now that the computational graph has been built, we need to train it, note that 
 expects some arguments such as the `LOGGING_PATH, SAVE_PATH, TRAIN_SET` and `TEST_SET`, which are, respectively,
 the path to the logging file, saving files, training set and testing set. In my case:
 
-```
+```python
 PATH = '/NOBACKUP/ashbylepoc/PycharmProjects/CharLSTM/'
 TRAIN_SET = PATH + 'datasets/train_set.csv'
 TEST_SET = PATH + 'datasets/test_set.csv'
@@ -652,7 +654,7 @@ SAVE_PATH = PATH + 'checkpoints/lstm'
 LOGGING_PATH = PATH + 'checkpoints/log.txt'
 ```
 
-```
+```python
 from tensorflow.contrib import rnn
 import numpy as np
 
@@ -767,13 +769,13 @@ import numpy as np
 Finally, we want to evaluate the test set to see how well we have done, this function is
 very repetitive and most of it is a copy-paste of the `train()` method.
 
-```
+```python
     def evaluate_test_set(self):
-        '''
+        """
         Evaluate Test Set
         On a model that trained for around 5 epochs it achieved:
         # Valid loss: 23.50035 -- Valid Accuracy: 0.83613
-        '''
+        """
         BATCH_SIZE = self.hparams['BATCH_SIZE']
         max_word_length = self.hparams['max_word_length']
 
@@ -833,7 +835,7 @@ organization, etc., but generalizing to organization is very easy to do once you
 To do so, we will be using the Stanford CoreNLP Toolkit, you can download the files to run the server
 locally [here](http://nlp.stanford.edu/software/stanford-corenlp-full-2016-10-31.zip).
 
-```
+```bash
 # Run the server with the following commands in a terminal:
 $ cd stanford-corenlp-*
 $ java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer -port 9000 -timeout 15000
@@ -862,7 +864,7 @@ be outside the directories and act as your main file. The first thing we will
 want to do is create a `StanfordCoreNLP` object that will be used to make
 API calls, make sure you started the server before you import `pycorenlp`.
 
-```
+```python
 from pycorenlp import StanfordCoreNLP
 from nltk.tokenize import sent_tokenize
 from nltk import Tree
@@ -879,7 +881,7 @@ Let's create a method that resolve coreferences,
 it will take a sentence as input and return a new sentence with the pronouns
 transformed to their corresponding entity.
 
-```
+```python
 def get_rep_mention(coreference):
     """
     This function will make more sense if you go through the
@@ -956,7 +958,7 @@ is happy!".
 
 You can reproduce this tree with the following code:
 
-```
+```python
 import nltk
 
 def parse_sentence(sentence):
@@ -981,7 +983,7 @@ As you can see, the only thing left to do is to grab the noun and associate
 it to all the leaves of his subtree, to do this we will traverse the tree using
 breadth-first search.
 
-```
+```python
 import Queue
 
 def tree_to_str(tree):
@@ -1046,7 +1048,7 @@ let's make it compatible with documents of any length.
 Note that the `predict_sentences()` and `categorize_document()` methods used below
 are available [in my Github repo](https://github.com/charlesashby/CharLSTM/blob/master/lib_model/char_lstm.py).
 
-```
+```python
 def flatten(list):
     """ Flatten a list of lists 
     i.e. [[element], [more element]] => [element, more element]
@@ -1131,7 +1133,7 @@ def get_sentiment(document, network):
 And that is it! Here are the results you can expect with the [pretrained
 unidirectional LSTM model](https://github.com/charlesashby/CharLSTM/tree/master/checkpoints):
 
-```
+```python
 # Results for sentence: Jean is really sad, but Adam is the happiest guy ever
 # Entity:  Jean -- sentiment: -0.197092 (neg)
 # Entity:  Adam -- sentiment: 0.885632  (pos)
