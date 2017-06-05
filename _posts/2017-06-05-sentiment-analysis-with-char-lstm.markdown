@@ -3,7 +3,7 @@ layout: post
 comments: true
 excerpt: "TensorFlow tutorial using character-level long-short term memory networks for sentiment analysis, we
            also show how to use Stanford CoreNLP for handling big documents such as news articles."
-title: "TensorFlow Tutorial - Analyzing Tweet's Sentiment with Character-Level LSTMs"
+title: "TensorFlow Tutorial - Analysing Tweet's Sentiment with Character-Level LSTMs"
 date: 2017-06-05 22:00:00
 mathjax: true
 ---
