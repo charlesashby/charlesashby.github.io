@@ -433,7 +433,7 @@ by passing it through a "highway network" before.
 
 ### Highway Network
     
-A "highway network" is a multi-layer perceptron equipped with a "skip-connection", that is, a connection to 
+A "highway network" is a gated multi-layer perceptron equipped with a "skip-connection", that is, a connection to 
 the output layer with no activation function. These kinds of network are extremely popular these days and 
 have achieved state-of-the-art results in image classification tasks. They are especially useful in 
 very deep neural networks because they help backpropagate the error better (the fact that there is a 
