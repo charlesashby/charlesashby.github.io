@@ -4,6 +4,7 @@ comments: true
 excerpt: "tensorflow tutorial"
 title: "TensorFlow Tutorial - Analyzing Tweet's Sentiment with LSTMs"
 date: 2017-06-05 22:00:00
+mathjax: true
 ---
 
 Hi there, for those who don't know me, my name is Charles Ashby I'm just a simple
@@ -18,7 +19,7 @@ in a manner that, I wish, will be accessible to anyone with a very limited
 background in deep learning. Therefore, if this post helped you,
 please, DO let me know!
 
-##### The Project
+### The Project
 
 Since my background is in Mathematical Finance, I thought that sentiment analysis
 would be a great fit for this blog's first real post considering how closely related
@@ -44,7 +45,7 @@ to extract the "entity-wise sentiment" of a sentence.
 # Jean: positive
 ```
 
-##### Preprocessing the data
+### Preprocessing the data
 
 The first thing we need to do when working with natural language is to decide the
 way we are going to process the text (i.e. how to embed the words),
@@ -159,9 +160,11 @@ import string
 import os
 
 # Our alphabet
-emb_alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789-,;.!?:\'"/\\|_@#$%^&*~`+-=<>()[]{} '
+emb_alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789-' \
+               ',;.!?:\'"/\\|_@#$%^&*~`+-=<>()[]{} '
 
-# we associate every character in our alphabet to a number: e.g. b => 1 d => 3 etc.
+# we associate every character in our alphabet to a number: 
+# e.g. b => 1 d => 3 etc.
 DICT = {ch: ix for ix, ch in enumerate(emb_alphabet)}
 
 # The size of our alphabet (~70)
@@ -192,7 +195,8 @@ form words, and then concatenate words to form the sentence, thus, yielding a te
 
 ```
     def encode_one_hot(self, sentence):
-        # Convert Sentences to np.array of Shape ('sent_length', 'word_length', 'emb_size')
+        # Convert Sentences to np.array of Shape 
+        # ('sent_length', 'word_length', 'emb_size')
 
         max_word_length = self.max_word_length
         sent = []
@@ -333,7 +337,7 @@ the network.
                 yield inputs, targets
 ```
 
-##### The model
+### The model
 
 Now that we got the nitty-gritty stuff out of the way, let's finally get into our actual model,
 I sketched what we will do in the next picture. Before you move on, you should take a while
@@ -406,7 +410,8 @@ def tdnn(input_, kernels, kernel_features, scope='TDNN'):
             reduced_length = self.max_word_length - kernel_size + 1
 
             # [batch_size * sentence_length x max_word_length x embed_size x kernel_feature_size]
-            conv = conv2d(input_, kernel_feature_size, 1, kernel_size, name="kernel_%d" % kernel_size)
+            conv = conv2d(input_, kernel_feature_size, 1,
+                          kernel_size, name="kernel_%d" % kernel_size)
 
             # [batch_size * sentence_length x 1 x 1 x kernel_feature_size]
             pool = tf.nn.max_pool(tf.tanh(conv), [1, 1, reduced_length, 1], [1, 1, 1, 1], 'VALID')
@@ -819,7 +824,7 @@ find them in my [github repository](https://github.com/charlesashby/CharLSTM/blo
 For those who are interested I also created a bi-directional character-level LSTM,
 the code is available in my Github repo as well.
 
-##### Handling Multiple Entities
+### Handling Multiple Entities
 
 The last subject I want to address is how to handle sentences with multiple entities, that is, how
 to capture the sentiment towards different people (here, we will focus only on "human" entities i.e. no
@@ -1132,7 +1137,7 @@ unidirectional LSTM model](https://github.com/charlesashby/CharLSTM/tree/master/
 # Entity:  Adam -- sentiment: 0.885632  (pos)
 ```
 
-##### Got Questions?
+### Got Questions?
 
 Hit me up in the comment section below and I will do my best to answer.
 
