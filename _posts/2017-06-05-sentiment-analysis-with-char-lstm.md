@@ -35,11 +35,11 @@ dataset available for download [here](http://help.sentiment140.com/for-students/
 I will also be showing how we can merge Stanford CoreNLP library with our network
 to extract the "entity-wise sentiment" of a sentence.
 
-{% highlight python %}
+``` python
 # e.g. Sentence: Jeanne is sad, but Jean is really happy!
 # Jeanne: negative
 # Jean: positive
-{% endhighlight %}
+```
 
 ##### Preprocessing the data
 
