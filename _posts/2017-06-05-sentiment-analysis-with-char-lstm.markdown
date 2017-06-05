@@ -445,15 +445,18 @@ path with no squashing function seems to be very beneficial during the training 
 def linear(input_, output_size, scope=None):
     """
     Linear map: output[k] = sum_i(Matrix[k, i] * args[i] ) + Bias[k]
+    
     Args:
         args: a tensor or a list of 2D, batch x n, Tensors.
-    output_size: int, second dimension of W[i].
-    scope: VariableScope for the created subgraph; defaults to "Linear".
+        output_size: int, second dimension of W[i].
+        scope: VariableScope for the created subgraph; defaults to "Linear".
+        
     Returns:
-    A 2D Tensor with shape [batch x output_size] equal to
-    sum_i(args[i] * W[i]), where W[i]s are newly created matrices.
+        A 2D Tensor with shape [batch x output_size] equal to
+        sum_i(args[i] * W[i]), where W[i]s are newly created matrices.
+        
     Raises:
-    ValueError: if some of the arguments has unspecified or wrong shape.
+        ValueError: if some of the arguments has unspecified or wrong shape.
     """
 
     shape = input_.get_shape().as_list()
