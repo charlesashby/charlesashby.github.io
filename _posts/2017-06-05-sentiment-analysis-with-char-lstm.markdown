@@ -37,6 +37,8 @@ In this tutorial, we will train a neural network to categorize a Tweet as having
 a positive or negative connotation, we will use the Stanford's Sentiment140 
 dataset available for download [here](http://help.sentiment140.com/for-students/).
 
+>Given a sentence, tell whether it has a positive or negative connotation.
+
 I will also be showing how we can merge Stanford CoreNLP library with our network
 to extract the "entity-wise sentiment" of a sentence.
 
