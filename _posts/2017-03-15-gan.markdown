@@ -123,7 +123,7 @@ does not mean anything in terms of image quality (or even convergence), therefor
 In the BEGAN paper the authors come up with a convergence measure $ M_{global} = L(X) + \mid \gamma L(X) - L(G(z)) \mid $ where $\gamma$ is a hyperparameter between zero and one. The following plot shows that this convergence measure is well
 correlated with image quality, we can also notice that convergence is quite quick.
 
-![_config.yml]({{ site.baseurl }}/images/convergence_measure.png =800x)
+<img src="/images/convergence_measure.png" style="width: 600px;"/>
 
 <sub><sup>**Fig. 3. Convergence measure versus number of iteration.**</sup></sub>
 
