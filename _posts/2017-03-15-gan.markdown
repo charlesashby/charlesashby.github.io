@@ -29,6 +29,7 @@ network taken from [Philip Paquette's blog](https://github.com/ppaquette/ift-626
 the following figure illustrates it's architecture.
 
 ![_config.yml]({{ site.baseurl }}/images/gan_architecture.png)
+
 <sub><sup>**Fig. 1. Visual representation of the GAN framework. Code is 
 available [here](https://github.com/charlesashby/conditional-image-generation).**</sup></sub>
 
