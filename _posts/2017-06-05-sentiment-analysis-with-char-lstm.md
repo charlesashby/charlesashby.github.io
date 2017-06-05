@@ -35,7 +35,7 @@ dataset available for download [here](http://help.sentiment140.com/for-students/
 I will also be showing how we can merge Stanford CoreNLP library with our network
 to extract the "entity-wise sentiment" of a sentence.
 
-```buildoutcfg
+```
 # e.g. Sentence: Jeanne is sad, but Jean is really happy!
 # Jeanne: negative
 # Jean: positive
@@ -55,7 +55,7 @@ Instead, I opted for a character-level embedding, we first embed the words as
 a one-hot encoding of a "character-vocabulary" (which is, basically, an 
 alphabet), in our case, we use every ASCII characters.
  
- ```buildoutcfg
+ ```
 # e.g. the word "hi" will be a matrix where it has a 1 at positions (0, 7) and (1, 8)
 # and 0's everywhere else considering our alphabet is given by:
 emb_alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789-,;.!?:\'"/\\|_@#$%^&*~`+-=<>()[]{} '
@@ -109,8 +109,10 @@ def shuffle_datasets(valid_perc=0.05):
     # "train_set.csv".
     
     # Make sure the paths exists, otherwise send some help messages...
-    assert os.path.exists(TRAIN_SET), 'Download the training set at http://help.sentiment140.com/for-students/'
-    assert os.path.exists(TEST_SET), 'Download the testing set at http://help.sentiment140.com/for-students/'
+    assert os.path.exists(TRAIN_SET), 'Download the training set at ' \
+                                      'http://help.sentiment140.com/for-students/'
+    assert os.path.exists(TEST_SET), 'Download the testing set at ' \
+                                     'http://help.sentiment140.com/for-students/'
 
     # Create training and validation set - We take 5% of the training set 
     # for the validation set by default
@@ -144,7 +146,7 @@ our `TextReader()` class, this class will help us loop through the data and crea
 that will be fed to our network during training. It opens a CSV file (our training, validation or 
 test set) and reads it through a buffer by loading a small amount of lines at a time to the RAM.
 
-```buildoutcfg
+```
 # Some packages we will need:
 import numpy as np
 from nltk.tokenize import word_tokenize
@@ -184,7 +186,7 @@ as a one-hot vector of length `ALPHABET_SIZE`, then we concatenate the character
 form words, and then concatenate words to form the sentence, thus, yielding a tensor of shape
 `[sentence_length x word_length x alphabet_size]`.
 
-```buildoutcfg
+```
     def encode_one_hot(self, sentence):
         # Convert Sentences to np.array of Shape ('sent_length', 'word_length', 'emb_size')
 
@@ -202,7 +204,8 @@ form words, and then concatenate words to form the sentence, thus, yielding a te
         encoded_sentence = filter(lambda x: x in printable, sentence)
         
         # word_tokenize() splits a sentence into an array where each element is
-        # a word in the sentence, for example, "My name is Charles" => ["My", "name", "is", Charles"]
+        # a word in the sentence, for example, 
+        # "My name is Charles" => ["My", "name", "is", Charles"]
         # Unidecode convert characters to utf-8
         for word in word_tokenize(unidecode(encoded_sentence)):
             
@@ -233,7 +236,7 @@ maximum_word_length x alphabet_size]`, but at the moment the sentences all have 
 we need to pad every sentences with lengths lower than `maximum_sentence_length` so that there are no
 holes in our tensor.
 
-```buildoutcfg
+```
     def make_minibatch(self, sentences):
         # Create a minibatch of sentences and convert sentiment
         # to a one-hot vector, also takes care of padding
@@ -260,7 +263,8 @@ holes in our tensor.
 
 
         # data is a np.array of shape ('b', 's', 'w', 'e') we want to
-        # pad it with np.zeros of shape ('e',) to get ('b', 'SENTENCE_MAX_LENGTH', 'WORD_MAX_LENGTH', 'e')
+        # pad it with np.zeros of shape ('e',) to get 
+        # ('b', 'SENTENCE_MAX_LENGTH', 'WORD_MAX_LENGTH', 'e')
         def numpy_fillna(data):
             """ This is a very useful function that fill the holes in our tensor """
             
@@ -287,7 +291,7 @@ Finally, we need an iterator function that loads some lines to our RAM, converts
 one-hot vectors, concatenate them to minibatches and return the minibatches, ready to be fed to
 the network.
 
-```buildoutcfg
+```
     def load_to_ram(self, batch_size):
         """ Load n Rows from File f to Ram """
         # Returns True if there are still lines in the buffer, 
@@ -354,7 +358,7 @@ We then concatenate the results of all the max pooling operation in a tensor of 
 `[25 * 50 * ... * 175 x 1]` (one max-pool for every kernel) for every words (the resulting
 tensor for the minibatch will then be of shape `[batch_size x sentence_length x 25 * 50 * ... * 175 x 1]`).
 
-```buildoutcfg
+```
 # This goes in ops.py
 import tensorflow as tf
 
@@ -369,13 +373,14 @@ def conv2d(input_, output_dim, k_h, k_w, name="conv2d"):
     return tf.nn.conv2d(input_, w, strides=[1, 1, 1, 1], padding='VALID') + b
 ```
 
-```buildoutcfg
+```
 from lib.ops import *
 import tensorflow as tf
 
 def tdnn(input_, kernels, kernel_features, scope='TDNN'):
     ''' Time Delay Neural Network
-    :input:           input float tensor of shape [(batch_size*num_unroll_steps) x max_word_length x embed_size]
+    :input:           input float tensor of shape 
+                      [(batch_size*num_unroll_steps) x max_word_length x embed_size]
     :kernels:         array of kernel sizes
     :kernel_features: array of kernel feature sizes (parallel to kernels)
     '''
@@ -423,7 +428,7 @@ have achieved state-of-the-art results in image classification tasks. They are e
 very deep neural networks because they help backpropagate the error better (the fact that there is a 
 path with no squashing function seems to be very beneficial during the training of these networks).
 
-```buildoutcfg
+```
 # This goes in ops.py
 
 def linear(input_, output_size, scope=None):
@@ -455,7 +460,7 @@ def linear(input_, output_size, scope=None):
     return tf.matmul(input_, tf.transpose(matrix)) + bias_term
 ```
 
-```buildoutcfg
+```
 def highway(input_, size, num_layers=1, bias=-2.0, f=tf.nn.relu, scope='Highway'):
     """Highway Network (cf. http://arxiv.org/abs/1505.00387).
     t = sigmoid(Wy + b)
@@ -478,7 +483,7 @@ def highway(input_, size, num_layers=1, bias=-2.0, f=tf.nn.relu, scope='Highway'
 Now, let's create our `LSTM()` class, the first thing we do is initialize it with placeholders
 for the one-hot encoded sentences and the sentiments, those will be the input to our computational graph.
 
-```buildoutcfg
+```
 class LSTM(object):
     """ Character-Level LSTM Implementation """
 
@@ -491,7 +496,8 @@ class LSTM(object):
         
         # X is of shape ('b', 'sentence_length', 'max_word_length', 'alphabet_size']
         # Placeholder for the one-hot encoded sentences
-        self.X = tf.placeholder('float32', shape=[None, None, max_word_length, ALPHABET_SIZE], name='X')
+        self.X = tf.placeholder('float32', 
+                                shape=[None, None, max_word_length, ALPHABET_SIZE], name='X')
         
         # Placeholder for the one-hot encoded sentiment
         self.Y = tf.placeholder('float32', shape=[None, 2], name='Y')
@@ -512,7 +518,7 @@ We are now ready to build the computational graph, note that the softmax functio
 perceptron with a softmax activation function to output the probability that the 
 sentence is positive or negative.
 
-```buildoutcfg
+```
 # This goes in ops.py
 def softmax(input_, out_dim, scope=None):
     """ SoftMax Output """
@@ -524,7 +530,7 @@ def softmax(input_, out_dim, scope=None):
     return tf.nn.softmax(tf.matmul(input_, W) + b)
 ```
 
-```buildoutcfg
+```
     def build(self,
               training=False,
               testing_batch_size=1000,
@@ -585,7 +591,8 @@ def softmax(input_, out_dim, scope=None):
 
         # tdnn() returns a tensor of shape [batch_size * sentence_length x kernel_features]
         # highway() returns a tensor of shape [batch_size * sentence_length x size] to use
-        # tensorflow dynamic_rnn module we need to reshape it to [batch_size x sentence_length x size]
+        # tensorflow dynamic_rnn module we need to reshape it to 
+        # [batch_size x sentence_length x size]
         cnn = highway(cnn, self.size)
         cnn = tf.reshape(cnn, [BATCH_SIZE, -1, self.size])
         
@@ -596,7 +603,8 @@ def softmax(input_, out_dim, scope=None):
             # necessary. Note that I did not use dropout to get my results, but using it
             # will probably help
             def create_rnn_cell():
-                cell = rnn.BasicLSTMCell(rnn_size, state_is_tuple=True, forget_bias=0.0, reuse=False)
+                cell = rnn.BasicLSTMCell(rnn_size, state_is_tuple=True,
+                                         forget_bias=0.0, reuse=False)
 
                 if dropout > 0.0:
                     cell = tf.contrib.rnn.DropoutWrapper(cell, output_keep_prob=1. - dropout)
@@ -626,7 +634,7 @@ Now that the computational graph has been built, we need to train it, note that 
 expects some arguments such as the `LOGGING_PATH, SAVE_PATH, TRAIN_SET` and `TEST_SET`, which are, respectively,
 the path to the logging file, saving files, training set and testing set. In my case:
 
-```buildoutcfg
+```
 PATH = '/NOBACKUP/ashbylepoc/PycharmProjects/CharLSTM/'
 TRAIN_SET = PATH + 'datasets/train_set.csv'
 TEST_SET = PATH + 'datasets/test_set.csv'
@@ -635,7 +643,7 @@ SAVE_PATH = PATH + 'checkpoints/lstm'
 LOGGING_PATH = PATH + 'checkpoints/log.txt'
 ```
 
-```buildoutcfg
+```
 from tensorflow.contrib import rnn
 import numpy as np
 
@@ -688,7 +696,8 @@ import numpy as np
                         batch_x, batch_y = minibatch
                         
                         # Do backprop and compute the cost and accuracy on this minibatch
-                        _, c, a = sess.run([optimizer, cost, acc], feed_dict={self.X: batch_x, self.Y: batch_y})
+                        _, c, a = sess.run([optimizer, cost, acc],
+                                           feed_dict={self.X: batch_x, self.Y: batch_y})
 
                         loss += c
 
@@ -749,7 +758,7 @@ import numpy as np
 Finally, we want to evaluate the test set to see how well we have done, this function is
 very repetitive and most of it is a copy-paste of the `train()` method.
 
-```buildoutcfg
+```
     def evaluate_test_set(self):
         '''
         Evaluate Test Set
@@ -815,7 +824,7 @@ organization, etc., but generalizing to organization is very easy to do once you
 To do so, we will be using the Stanford CoreNLP Toolkit, you can download the files to run the server
 locally [here](http://nlp.stanford.edu/software/stanford-corenlp-full-2016-10-31.zip).
 
-```buildoutcfg
+```
 # Run the server with the following commands in a terminal:
 $ cd stanford-corenlp-*
 $ java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer -port 9000 -timeout 15000
@@ -844,7 +853,7 @@ be outside the directories and act as your main file. The first thing we will
 want to do is create a `StanfordCoreNLP` object that will be used to make
 API calls, make sure you started the server before you import `pycorenlp`.
 
-```buildoutcfg
+```
 from pycorenlp import StanfordCoreNLP
 from nltk.tokenize import sent_tokenize
 from nltk import Tree
@@ -861,7 +870,7 @@ Let's create a method that resolve coreferences,
 it will take a sentence as input and return a new sentence with the pronouns
 transformed to their corresponding entity.
 
-```buildoutcfg
+```
 def get_rep_mention(coreference):
     """
     This function will make more sense if you go through the
@@ -938,7 +947,7 @@ is happy!".
 
 You can reproduce this tree with the following code:
 
-```buildoutcfg
+```
 import nltk
 
 def parse_sentence(sentence):
@@ -963,7 +972,7 @@ As you can see, the only thing left to do is to grab the noun and associate
 it to all the leaves of his subtree, to do this we will traverse the tree using
 breadth-first search.
 
-```buildoutcfg
+```
 import Queue
 
 def tree_to_str(tree):
@@ -1028,7 +1037,7 @@ let's make it compatible with documents of any length.
 Note that the `predict_sentences()` and `categorize_document()` methods used below
 are available [in my Github repo](https://github.com/charlesashby/CharLSTM/blob/master/lib_model/char_lstm.py).
 
-```buildoutcfg
+```
 def flatten(list):
     """ Flatten a list of lists 
     i.e. [[element], [more element]] => [element, more element]
@@ -1113,7 +1122,7 @@ def get_sentiment(document, network):
 And that is it! Here are the results you can expect with the [pretrained
 unidirectional LSTM model](https://github.com/charlesashby/CharLSTM/tree/master/checkpoints):
 
-```buildoutcfg
+```
 # Results for sentence: Jean is really sad, but Adam is the happiest guy ever
 # Entity:  Jean -- sentiment: -0.197092 (neg)
 # Entity:  Adam -- sentiment: 0.885632  (pos)
@@ -1129,4 +1138,4 @@ covering slightly advanced subjects, but in a manner that should be understandab
 
 With all that being said, thanks so much for reading this post. I will catch you in the next tutorial!
 
-- Charles Ashby
+\- Charles Ashby
