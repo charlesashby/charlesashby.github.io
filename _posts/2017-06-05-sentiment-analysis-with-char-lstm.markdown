@@ -84,7 +84,7 @@ the coding; when I start a new project I like to separate my code into two main 
 one for my model and another for basically everything else, the following code will all
 fall into the `data_utils.py` file.
 
-## picture
+<center><img src="/images/directory_structure.png" style="width: 400px;"/></center>
 
 The first thing we need to do is shuffle our dataset, I won't really get into the details of 
 what I'm doing here, I think it is pretty straight-forward.
@@ -959,7 +959,7 @@ with the "parse" annotator, in the following picture you can see a tree
 visualization of what it did for the sentence "Jeanne is mad, but Marie 
 is happy!".
 
-## picture - tree
+<center><img src="/images/tree_viz.png" style="width: 400px;"/></center>
 
 You can reproduce this tree with the following code:
 
