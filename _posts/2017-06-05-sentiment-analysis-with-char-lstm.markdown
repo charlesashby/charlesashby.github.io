@@ -34,12 +34,12 @@ Tweets where there is a great deal of spelling mistakes and ambiguous sentences,
 it should have no problem to generalize elsewhere.
 
 In this tutorial, we will train a neural network to categorize a Tweet as having
-a positive or negative connotation, we will use the Stanford's Sentiment140 
-dataset available for download [here](http://help.sentiment140.com/for-students/).
+a positive or negative connotation, we will use the **Stanford's Sentiment140 
+dataset** available for download [here](http://help.sentiment140.com/for-students/).
 
 >Given a sentence, tell whether it has a positive or negative connotation.
 
-I will also be showing how we can merge Stanford CoreNLP library with our network
+I will also be showing how we can merge **Stanford CoreNLP library** with our network
 to extract the "entity-wise sentiment" of a sentence.
 
 ```python
@@ -843,7 +843,7 @@ The last subject I want to address is how to handle sentences with multiple enti
 to capture the sentiment towards different people (here, we will focus only on "human" entities i.e. no
 organization, etc., but generalizing to organization is very easy to do once you understand the main concept).
 
-To do so, we will be using the Stanford CoreNLP Toolkit, you can download the files to run the server
+To do so, we will be using the **Stanford CoreNLP Toolkit**, you can download the files to run the server
 locally [here](http://nlp.stanford.edu/software/stanford-corenlp-full-2016-10-31.zip).
 
 ```bash
@@ -871,8 +871,7 @@ Otherwise we would not be able to assign a sentiment to any entity for the secon
 sentence, this process is known as anaphora resolution.
 
 The following code is all part of the `parse_doc.py` file, this file should
-be outside the directories and act as your main file. The first thing we will
-want to do is create a `StanfordCoreNLP` object that will be used to make
+be outside the directories and act as your main file. Now, let's create a `StanfordCoreNLP` object that will be used to make
 API calls, make sure you started the server before you import `pycorenlp`.
 
 ```python
@@ -887,6 +886,8 @@ nlp = StanfordCoreNLP('http://localhost:9000')
 I will not be going over how the Stanford CoreNLP algorithms work, but if 
 you are interested you can read more about it [here](https://stanfordnlp.github.io/CoreNLP/),
 I will only say that, to my knowledge, this is the best parser available online.
+
+>Stanford CoreNLP is the best parser available online.
 
 Let's create a method that resolve coreferences,
 it will take a sentence as input and return a new sentence with the pronouns
