@@ -883,7 +883,7 @@ from lib_model.char_lstm import *
 # StanfordCoreNLP object used for making API calls
 nlp = StanfordCoreNLP('http://localhost:9000')
 ```
-I will not be going over how the Stanford CoreNLP algorithms work, but if 
+I will not be going over how the **Stanford CoreNLP** algorithms work, but if 
 you are interested you can read more about it [here](https://stanfordnlp.github.io/CoreNLP/),
 I will only say that, to my knowledge, this is the best parser available online.
 
