@@ -870,6 +870,8 @@ what we would really want is ["Marie came home yesterday", "Marie was really sad
 Otherwise we would not be able to assign a sentiment to any entity for the second
 sentence, this process is known as anaphora resolution.
 
+>Stanford CoreNLP tutorial starts here...
+
 The following code is all part of the `parse_doc.py` file, this file should
 be outside the directories and act as your main file. Now, let's create a `StanfordCoreNLP` object that will be used to make
 API calls, make sure you started the server before you import `pycorenlp`.
@@ -886,8 +888,6 @@ nlp = StanfordCoreNLP('http://localhost:9000')
 I will not be going over how the **Stanford CoreNLP** algorithms work, but if 
 you are interested you can read more about it [here](https://stanfordnlp.github.io/CoreNLP/),
 I will only say that, to my knowledge, this is the best parser available online.
-
->Stanford CoreNLP is the best parser available online.
 
 Let's create a method that resolve coreferences,
 it will take a sentence as input and return a new sentence with the pronouns
