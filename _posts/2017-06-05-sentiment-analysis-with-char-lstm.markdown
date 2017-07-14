@@ -1155,9 +1155,7 @@ unidirectional LSTM model](https://github.com/charlesashby/CharLSTM/tree/master/
 
 Hit me up in the comment section below and I will do my best to answer.
 
-Also, if you like this kind of tutorial make sure to follow me on [Github](https://github.com/charlesashby),
-I'll be releasing a new tutorial on reinforcement learning in the upcoming weeks, like always, I'll be 
-covering slightly advanced subjects, but in a manner that should be understandable by everybody.
+Also, if you like this kind of tutorial,I'll be releasing a new tutorial on reinforcement learning in the upcoming weeks, like always, I'll be covering slightly advanced subjects, but in a manner that should be understandable by everybody.
 
 With all that being said, thanks so much for reading this post. I will catch you in the next tutorial!
 
