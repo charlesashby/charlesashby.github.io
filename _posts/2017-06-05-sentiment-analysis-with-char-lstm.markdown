@@ -8,8 +8,7 @@ date: 2017-06-05 22:00:00
 mathjax: true
 ---
 
-Hi there, for those who don't know me, my name is Charles Ashby I'm just a simple
-guy studying artificial intelligence at University of Montreal. This blog first 
+This blog first 
 started as a platform for presenting a project I worked on during the course of 
 the winter's 2017 Deep Learning class given by prof Aaron Courville.
 
@@ -31,7 +30,7 @@ amount of data available (Twitter even let's you categorize tweets with those
 who contains happy/sad emoticons i.e. there is an almost infinite amount of training data).
 Second, I have a strong feeling that if a network can generalize well with 
 Tweets where there is a great deal of spelling mistakes and ambiguous sentences,
-it should have no problem to generalize elsewhere.
+it should have no problem to generalize somewhere else.
 
 In this tutorial, we will train a neural network to categorize a Tweet as having
 a positive or negative connotation, we will use the **Stanford's Sentiment140 
